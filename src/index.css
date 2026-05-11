@@ -1,13 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --accent: 234 88 12;
-    --accent-hover: 194 65 12;
-    --accent-subtle: 234 88 12 / 0.12;
-    --accent-border: 234 88 12 / 0.3;
-  }
+:root {
+  /* Primary Background Colors */
+  --bg-main: #0a0a0a;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1a1a1a;
+  --bg-card: #1c1c1c;
+  
+  /* Accent Colors */
+  --accent-primary: #ff6b35;
+  --accent-warning: #ff8c42;
+  --accent-success: #4ade80;
+  --accent-info: #60a5fa;
+  --accent-purple: #a78bfa;
+  --accent-yellow: #fbbf24;
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #b4b4b4;
+  --text-tertiary: #6b7280;
+  
+  /* Border & Divider Colors */
+  --border-subtle: #2a2a2a;
+  --divider: #1f1f1f;
+}
 
+@layer base {
   * {
     box-sizing: border-box;
     margin: 0;
@@ -15,13 +34,13 @@
   }
 
   html {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply bg-gray-950 text-gray-100 overflow-hidden;
+    @apply bg-[#0a0a0a] text-white overflow-hidden;
   }
 
   ::-webkit-scrollbar {
@@ -45,19 +64,19 @@
 
 @layer utilities {
   .accent-bg {
-    background-color: rgb(var(--accent));
+    background-color: var(--accent-primary);
   }
   .accent-text {
-    color: rgb(var(--accent));
+    color: var(--accent-primary);
   }
   .accent-border {
-    border-color: rgb(var(--accent));
+    border-color: var(--accent-primary);
   }
   .accent-subtle-bg {
-    background-color: rgb(var(--accent-subtle));
+    background-color: color-mix(in srgb, var(--accent-primary) 12%, transparent);
   }
   .accent-ring {
-    --tw-ring-color: rgb(var(--accent));
+    --tw-ring-color: var(--accent-primary);
   }
 
   .glass {
@@ -112,7 +131,7 @@
   .editor-content ol { padding-left: 1.5em; list-style: decimal; }
   .editor-content li { margin-bottom: 0.25em; }
   .editor-content blockquote {
-    border-left: 3px solid rgb(var(--accent));
+    border-left: 3px solid var(--accent-primary);
     padding-left: 1em;
     color: rgb(156 163 175);
     font-style: italic;
@@ -121,7 +140,7 @@
   .editor-content h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5em; }
   .editor-content h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5em; }
   .editor-content h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4em; }
-  .editor-content a { color: rgb(var(--accent)); text-decoration: underline; }
+  .editor-content a { color: var(--accent-primary); text-decoration: underline; }
 
   .tiptap p.is-editor-empty:first-child::before {
     color: rgb(107 114 128);
@@ -148,8 +167,8 @@
   }
 
   .topic-card-active {
-    background: rgb(var(--accent-subtle));
-    border-color: rgb(var(--accent-border));
+    background: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+    border-color: color-mix(in srgb, var(--accent-primary) 30%, transparent);
   }
 
   .shimmer {
@@ -167,17 +186,15 @@
 .light-mode {
   color-scheme: light;
 }
-.light-mode .bg-gray-950 { background-color: #f8fafc; }
-.light-mode .bg-gray-900 { background-color: #f1f5f9; }
-.light-mode .bg-gray-800 { background-color: #e2e8f0; }
-.light-mode .bg-gray-700 { background-color: #cbd5e1; }
-.light-mode .text-gray-100 { color: #0f172a; }
-.light-mode .text-gray-200 { color: #1e293b; }
-.light-mode .text-gray-300 { color: #334155; }
-.light-mode .text-gray-400 { color: #475569; }
-.light-mode .text-gray-500 { color: #64748b; }
-.light-mode .border-gray-800 { border-color: #e2e8f0; }
-.light-mode .border-gray-700 { border-color: #cbd5e1; }
+.light-mode .bg-\[\#0a0a0a\] { background-color: #f8fafc; }
+.light-mode .bg-\[\#141414\] { background-color: #f1f5f9; }
+.light-mode .bg-\[\#1a1a1a\] { background-color: #e2e8f0; }
+.light-mode .bg-\[\#1c1c1c\] { background-color: #cbd5e1; }
+.light-mode .text-white { color: #0f172a; }
+.light-mode .text-\[\#b4b4b4\] { color: #1e293b; }
+.light-mode .text-\[\#6b7280\] { color: #334155; }
+.light-mode .border-\[\#2a2a2a\] { border-color: #e2e8f0; }
+.light-mode .border-\[\#1f1f1f\] { border-color: #cbd5e1; }
 .light-mode .glass {
   background: rgba(248, 250, 252, 0.85);
   border: 1px solid rgba(0,0,0,0.08);
