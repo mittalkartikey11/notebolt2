@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import Sidebar from './components/layout/Sidebar';
 import TopBar from './components/layout/TopBar';
 import TopicsPanel from './components/layout/TopicsPanel';
 import MainContent from './components/layout/MainContent';
+import MobileBottomNav from './components/mobile/MobileBottomNav';
+import MobileTopBar from './components/mobile/MobileTopBar';
+import MobileCategoryView from './components/mobile/MobileCategoryView';
 import Home from './pages/Home';
 import AllNotes from './pages/AllNotes';
 import Starred from './pages/Starred';
@@ -30,8 +33,9 @@ function PageContent({ view }) {
 }
 
 export default function App() {
-  const { activeView, selectedCategory, selectedTopic } = useAppStore();
+  const { activeView, selectedCategory, selectedTopic, selectCategory } = useAppStore();
   const { init } = useThemeStore();
+  const [, setSearchOpen] = useState(false);
 
   // Initialize theme on mount
   useEffect(() => { init(); }, [init]);
@@ -39,22 +43,64 @@ export default function App() {
   // Determine if we're in the 3-panel layout (category/topic view) or a single-page view
   const isKnowledgeView = activeView === 'category' || activeView === 'topic';
   const showTopicsPanel = !!selectedCategory;
-  const showMainContent = !!selectedTopic || (selectedCategory && activeView === 'category');
+
+  // Handle back navigation from mobile category view
+  const handleBackFromCategory = () => {
+    selectCategory(null);
+  };
 
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden bg-[#0a0a0a]">
-      <TopBar />
+      {/* Desktop Top Bar - hidden on mobile */}
+      <div className="hidden md:block">
+        <TopBar />
+      </div>
+
+      {/* Mobile Top Bar - visible only on mobile */}
+      <MobileTopBar onSearchClick={() => setSearchOpen(true)} />
+
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
+        {/* Desktop Sidebar - hidden on mobile */}
+        <div className="hidden md:block desktop-sidebar">
+          <Sidebar />
+        </div>
+
         {isKnowledgeView ? (
           <>
-            {showTopicsPanel && <TopicsPanel />}
-            <MainContent />
+            {/* Mobile Category View - full screen on mobile */}
+            <div className="md:hidden">
+              {selectedCategory && (
+                <MobileCategoryView 
+                  category={selectedCategory} 
+                  onBack={handleBackFromCategory}
+                />
+              )}
+            </div>
+            
+            {/* Desktop Topics Panel + Main Content */}
+            <div className="hidden md:flex flex-1 overflow-hidden">
+              {showTopicsPanel && <TopicsPanel />}
+              <MainContent />
+            </div>
           </>
         ) : (
-          <PageContent view={activeView} />
+          <>
+            {/* Desktop Content */}
+            <div className="hidden md:flex flex-1 overflow-hidden">
+              <PageContent view={activeView} />
+            </div>
+            
+            {/* Mobile Content - Full Screen */}
+            <div className="md:hidden flex-1 overflow-y-auto mobile-content-with-topbar main-content">
+              <PageContent view={activeView} />
+            </div>
+          </>
         )}
       </div>
+
+      {/* Mobile Bottom Navigation - visible only on mobile */}
+      <MobileBottomNav />
+
       <Toaster
         position="bottom-right"
         toastOptions={{

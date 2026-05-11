@@ -24,6 +24,10 @@
   /* Border & Divider Colors */
   --border-subtle: #2a2a2a;
   --divider: #1f1f1f;
+
+  /* Mobile Navigation Height */
+  --mobile-nav-height: 64px;
+  --mobile-topbar-height: 56px;
 }
 
 @layer base {
@@ -179,6 +183,316 @@
   @keyframes shimmer {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
+  }
+
+  /* Mobile Responsive Utilities */
+  .mobile-safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Mobile Small: 320px - 374px (iPhone SE, small Android) */
+/* Mobile Medium: 375px - 428px (iPhone 12/13/14, standard phones) */
+/* Mobile Large: 429px - 767px (iPhone Pro Max, large Android) */
+@media (max-width: 767px) {
+  /* Hide desktop sidebar on mobile */
+  aside[aria-label="Sidebar"],
+  .desktop-sidebar {
+    display: none !important;
+  }
+
+  /* Adjust main content for mobile navigation */
+  .main-content {
+    padding-bottom: var(--mobile-nav-height) !important;
+  }
+
+  /* Mobile top bar adjustments */
+  header[role="banner"] {
+    height: var(--mobile-topbar-height) !important;
+    padding: 0 16px !important;
+  }
+
+  /* Single column layout */
+  .grid-cols-12,
+  .grid-cols-8,
+  .grid-cols-5,
+  .grid-cols-4,
+  .grid-cols-3,
+  .grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+
+  /* Stat cards full width on mobile */
+  .stat-card-mobile {
+    width: calc(100% - 32px);
+    margin: 0 16px 12px;
+  }
+
+  /* Reduce container padding */
+  .p-6,
+  .p-8 {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Smaller headings on mobile */
+  h1 { font-size: 20px !important; }
+  h2 { font-size: 18px !important; }
+  h3 { font-size: 16px !important; }
+
+  /* Card spacing */
+  .card-gap-mobile {
+    gap: 12px !important;
+  }
+
+  /* Hide breadcrumb on mobile */
+  .mobile-hide-breadcrumb {
+    display: none;
+  }
+}
+
+/* Tablet Portrait: 768px - 1023px (iPad portrait) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Two column layout instead of three */
+  .tablet-two-col {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+  }
+
+  /* Adjust card sizes */
+  .tablet-stat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Tablet Landscape: 1024px - 1199px (iPad landscape) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  /* Full three-column but with adjusted widths */
+  .landscape-sidebar {
+    width: 220px;
+  }
+}
+
+/* Desktop Small: 1200px - 1439px */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  /* Standard three-column layout */
+}
+
+/* Desktop Large: 1440px+ */
+@media (min-width: 1440px) {
+  /* Maximum width container */
+  .max-w-desktop {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+/* Mobile Bottom Navigation */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--mobile-nav-height);
+  background: #0f0f0f;
+  border-top: 1px solid #1f1f1f;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-bottom-nav {
+    display: flex;
+  }
+
+  /* Hide desktop header actions on mobile */
+  .desktop-header-actions {
+    display: none;
+  }
+}
+
+/* Mobile Top Bar */
+.mobile-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--mobile-topbar-height);
+  background: #0a0a0a;
+  border-bottom: 1px solid #1f1f1f;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+@media (max-width: 767px) {
+  .mobile-top-bar {
+    display: flex;
+  }
+
+  /* Add padding to content for fixed top bar */
+  .mobile-content-with-topbar {
+    padding-top: var(--mobile-topbar-height);
+  }
+}
+
+/* Floating Action Button for Admin Mode */
+.mobile-fab {
+  position: fixed;
+  bottom: calc(var(--mobile-nav-height) + 24px);
+  right: 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b35, #ff7d4d);
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+@media (max-width: 767px) {
+  .mobile-fab.admin-mode {
+    display: flex;
+  }
+}
+
+/* Pull to Refresh Indicator */
+.pull-to-refresh-indicator {
+  position: absolute;
+  top: -48px;
+  left: 0;
+  right: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile Modal / Bottom Sheet */
+.mobile-bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #0f0f0f;
+  border-radius: 16px 16px 0 0;
+  max-height: 90vh;
+  z-index: 1001;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.mobile-bottom-sheet.open {
+  transform: translateY(0);
+}
+
+.mobile-bottom-sheet-handle {
+  width: 32px;
+  height: 4px;
+  background: #2a2a2a;
+  border-radius: 2px;
+  margin: 12px auto;
+}
+
+/* Mobile Search Overlay */
+.mobile-search-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0a;
+  z-index: 1002;
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-search-overlay.active {
+    display: block;
+  }
+
+  .mobile-search-input {
+    height: 48px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+/* Touch-friendly list items */
+@media (max-width: 767px) {
+  .touch-list-item {
+    min-height: 72px;
+    padding: 12px 16px;
+  }
+
+  .touch-card {
+    border-radius: 12px;
+    padding: 16px;
+  }
+}
+
+/* Code block mobile optimization */
+@media (max-width: 767px) {
+  .code-block-mobile {
+    max-width: calc(100vw - 64px);
+    font-size: 13px;
+  }
+}
+
+/* Tag pills mobile */
+@media (max-width: 767px) {
+  .tag-pill-mobile {
+    height: 24px;
+    padding: 4px 10px;
+    font-size: 12px;
+    max-width: calc(100vw - 96px);
+  }
+}
+
+/* Status badge mobile */
+@media (max-width: 767px) {
+  .status-badge-mobile {
+    height: 20px;
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
+
+/* Accessibility: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border-subtle: #4a4a4a;
+    --divider: #3a3a3a;
   }
 }
 
