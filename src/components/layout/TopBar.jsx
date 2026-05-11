@@ -19,14 +19,14 @@ function PalettePickerDropdown({ onClose }) {
 
   return (
     <motion.div ref={ref} initial={{ opacity: 0, scale: 0.95, y: -8 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: -8 }}
-      className="absolute right-0 top-10 z-50 w-56 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl p-2">
-      <p className="text-[10px] text-gray-500 uppercase tracking-wider font-semibold px-2 mb-2">Accent Palette</p>
-      <div className="grid grid-cols-2 gap-1">
+      className="absolute right-0 top-10 z-50 w-56 bg-[#1c1c1c] border border-[#2a2a2a] rounded-xl shadow-2xl p-3">
+      <p className="text-[10px] text-[#6b7280] uppercase tracking-wider font-semibold px-2 mb-2">Accent Palette</p>
+      <div className="grid grid-cols-2 gap-1.5">
         {Object.entries(PALETTES).map(([name, p]) => (
           <button key={name} onClick={() => { setPalette(name); onClose(); }}
-            className={`flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs transition-all ${currentPalette === name ? 'bg-gray-700 text-gray-100' : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200'}`}>
+            className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs transition-all ${currentPalette === name ? 'bg-[#2a2a2a] text-white' : 'text-[#b4b4b4] hover:bg-[#2a2a2a] hover:text-white'}`}>
             <div className="w-3 h-3 rounded-full shrink-0" style={{ background: p.hex }} />
-            <span className="truncate text-[10px]">{name}</span>
+            <span className="truncate text-[11px]">{name}</span>
           </button>
         ))}
       </div>
@@ -69,49 +69,49 @@ function SearchModal({ onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/60 backdrop-blur-sm" onClick={onClose}>
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-        className="w-full max-w-xl bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl overflow-hidden"
+        className="w-full max-w-xl bg-[#1c1c1c] border border-[#2a2a2a] rounded-2xl shadow-2xl overflow-hidden"
         onClick={e => e.stopPropagation()}>
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-800">
-          <Search size={16} className="text-gray-400 shrink-0" />
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#2a2a2a]">
+          <Search size={16} className="text-[#6b7280] shrink-0" />
           <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)} onKeyDown={handleKey}
             placeholder="Search notes, topics, categories, tags…"
-            className="flex-1 bg-transparent text-sm text-gray-100 outline-none placeholder-gray-500" />
-          <kbd className="text-[10px] text-gray-600 bg-gray-800 px-1.5 py-0.5 rounded border border-gray-700">ESC</kbd>
+            className="flex-1 bg-transparent text-sm text-white outline-none placeholder-[#6b7280]" />
+          <kbd className="text-[10px] text-[#6b7280] bg-[#2a2a2a] px-1.5 py-0.5 rounded border border-[#2a2a2a]">ESC</kbd>
         </div>
         {results.length > 0 ? (
           <div className="py-1 max-h-72 overflow-y-auto">
             {results.map((r, i) => (
               <button key={`${r.type}-${r.item.id}`} onClick={() => handleSelect(r)}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${i === selectedIdx ? 'bg-gray-800 accent-text' : 'text-gray-300 hover:bg-gray-800'}`}>
+                className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${i === selectedIdx ? 'bg-[#2a2a2a] text-[#ff6b35]' : 'text-[#b4b4b4] hover:bg-[#2a2a2a]'}`}>
                 <span className="text-base shrink-0">{r.icon}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{r.label}</p>
-                  <p className="text-[10px] text-gray-500">{r.type.charAt(0).toUpperCase() + r.type.slice(1)} · {r.sub}</p>
+                  <p className="text-sm font-medium truncate text-white">{r.label}</p>
+                  <p className="text-[10px] text-[#6b7280]">{r.type.charAt(0).toUpperCase() + r.type.slice(1)} · {r.sub}</p>
                 </div>
               </button>
             ))}
           </div>
         ) : query.trim() ? (
-          <div className="py-8 text-center text-gray-500 text-sm">No results for "{query}"</div>
+          <div className="py-8 text-center text-[#6b7280] text-sm">No results for "{query}"</div>
         ) : (
           <div className="py-4 px-4">
-            <p className="text-[10px] text-gray-600 uppercase tracking-wider mb-2">Quick shortcuts</p>
+            <p className="text-[10px] text-[#6b7280] uppercase tracking-wider mb-2">Quick shortcuts</p>
             {[
               { icon: Star, label: 'Starred Notes', action: () => { useAppStore.getState().setActiveView('starred'); onClose(); } },
               { icon: Pin, label: 'Pinned Notes', action: () => { useAppStore.getState().setActiveView('allnotes'); onClose(); } },
               { icon: Tag, label: 'Browse Tags', action: () => { useAppStore.getState().setActiveView('tags'); onClose(); } },
             ].map(s => (
-              <button key={s.label} onClick={s.action} className="w-full flex items-center gap-2.5 px-2 py-2 rounded-lg text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition-colors text-sm">
+              <button key={s.label} onClick={s.action} className="w-full flex items-center gap-2.5 px-2 py-2 rounded-lg text-[#b4b4b4] hover:text-white hover:bg-[#2a2a2a] transition-colors text-sm">
                 <s.icon size={14} />
                 {s.label}
               </button>
             ))}
           </div>
         )}
-        <div className="px-4 py-2 border-t border-gray-800 flex gap-3 text-[10px] text-gray-600">
-          <span><kbd className="bg-gray-800 border border-gray-700 px-1 rounded">↑↓</kbd> navigate</span>
-          <span><kbd className="bg-gray-800 border border-gray-700 px-1 rounded">Enter</kbd> select</span>
-          <span><kbd className="bg-gray-800 border border-gray-700 px-1 rounded">Esc</kbd> close</span>
+        <div className="px-4 py-2.5 border-t border-[#2a2a2a] flex gap-3 text-[10px] text-[#6b7280]">
+          <span><kbd className="bg-[#2a2a2a] border border-[#2a2a2a] px-1 rounded">↑↓</kbd> navigate</span>
+          <span><kbd className="bg-[#2a2a2a] border border-[#2a2a2a] px-1 rounded">Enter</kbd> select</span>
+          <span><kbd className="bg-[#2a2a2a] border border-[#2a2a2a] px-1 rounded">Esc</kbd> close</span>
         </div>
       </motion.div>
     </div>
@@ -139,20 +139,20 @@ export default function TopBar() {
 
   return (
     <>
-      <div className="h-12 border-b border-gray-800 bg-gray-950/80 backdrop-blur-md flex items-center gap-3 px-4 shrink-0 z-20">
+      <div className="h-[72px] border-b border-[#2a2a2a] bg-[#0a0a0a] flex items-center gap-3 px-8 shrink-0 z-20">
         {/* Breadcrumb */}
         {(selectedCategory || activeView !== 'home') && (
-          <div className="flex items-center gap-1.5 text-xs text-gray-500 min-w-0 shrink-0">
+          <div className="flex items-center gap-1.5 text-xs text-[#6b7280] min-w-0 shrink-0">
             {selectedCategory && (
               <>
                 <span className="text-sm">{selectedCategory.icon}</span>
-                <span className="font-medium text-gray-300 truncate max-w-24">{selectedCategory.name}</span>
+                <span className="font-medium text-white truncate max-w-24">{selectedCategory.name}</span>
               </>
             )}
             {selectedTopic && (
               <>
-                <span className="text-gray-600">/</span>
-                <span className="font-medium text-gray-400 truncate max-w-24">{selectedTopic.name}</span>
+                <span className="text-[#2a2a2a]">/</span>
+                <span className="font-medium text-[#b4b4b4] truncate max-w-24">{selectedTopic.name}</span>
               </>
             )}
           </div>
@@ -160,25 +160,25 @@ export default function TopBar() {
 
         {/* Search bar - center */}
         <button onClick={() => setSearchOpen(true)}
-          className="flex-1 max-w-md mx-auto flex items-center gap-2 px-3 py-1.5 bg-gray-800/60 border border-gray-700/50 rounded-xl text-xs text-gray-500 hover:bg-gray-800 hover:text-gray-400 transition-colors cursor-text">
-          <Search size={12} />
+          className="flex-1 max-w-md mx-auto flex items-center gap-2.5 px-4 py-2.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl text-sm text-[#6b7280] hover:bg-[#2a2a2a] hover:text-white transition-colors cursor-text">
+          <Search size={14} />
           <span className="flex-1 text-left">Search notes, topics, tags…</span>
-          <kbd className="text-[10px] bg-gray-700 border border-gray-600 px-1.5 py-0.5 rounded">Ctrl + K</kbd>
+          <kbd className="text-[10px] bg-[#2a2a2a] border border-[#2a2a2a] px-2 py-1 rounded">Ctrl + K</kbd>
         </button>
 
         {/* Right actions */}
-        <div className="flex items-center gap-1 shrink-0 ml-auto">
+        <div className="flex items-center gap-1.5 shrink-0 ml-auto">
           {/* Dark/Light toggle */}
           <button onClick={toggleDark}
-            className="p-2 rounded-lg text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition-colors">
-            {isDark ? <Sun size={15} /> : <Moon size={15} />}
+            className="p-2.5 rounded-xl text-[#6b7280] hover:text-white hover:bg-[#2a2a2a] transition-colors">
+            {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
 
           {/* Palette picker */}
           <div className="relative">
             <button onClick={() => setPaletteOpen(!paletteOpen)}
-              className="p-2 rounded-lg text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition-colors">
-              <div className="w-4 h-4 rounded-full accent-bg shadow-lg" />
+              className="p-2.5 rounded-xl text-[#6b7280] hover:text-white hover:bg-[#2a2a2a] transition-colors">
+              <div className="w-4 h-4 rounded-full bg-[#ff6b35] shadow-lg" />
             </button>
             <AnimatePresence>
               {paletteOpen && <PalettePickerDropdown onClose={() => setPaletteOpen(false)} />}
@@ -186,20 +186,20 @@ export default function TopBar() {
           </div>
 
           {/* Notifications */}
-          <button className="p-2 rounded-lg text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition-colors relative">
-            <Bell size={15} />
-            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-orange-500 rounded-full" />
+          <button className="p-2.5 rounded-xl text-[#6b7280] hover:text-white hover:bg-[#2a2a2a] transition-colors relative">
+            <Bell size={16} />
+            <span className="absolute top-2 right-2 w-2 h-2 bg-[#ff6b35] rounded-full" />
           </button>
 
           {/* Admin Mode */}
           <button onClick={toggleAdminMode}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${isAdminMode ? 'accent-bg border-[rgb(var(--accent))]/40 text-white shadow-lg' : 'bg-gray-800 border-gray-700 text-gray-400 hover:text-gray-200'}`}>
-            <Crown size={12} />
+            className={`flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-sm font-bold border transition-all ${isAdminMode ? 'bg-[#ff6b35] border-[#ff6b35]/40 text-white shadow-lg' : 'bg-[#1a1a1a] border-[#2a2a2a] text-[#6b7280] hover:text-white'}`}>
+            <Crown size={13} />
             {isAdminMode ? 'Admin Mode' : 'View Only'}
           </button>
 
-          <button className="p-2 rounded-lg text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition-colors">
-            <MoreHorizontal size={15} />
+          <button className="p-2.5 rounded-xl text-[#6b7280] hover:text-white hover:bg-[#2a2a2a] transition-colors">
+            <MoreHorizontal size={16} />
           </button>
         </div>
       </div>

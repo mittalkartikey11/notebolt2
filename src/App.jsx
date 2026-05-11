@@ -42,7 +42,7 @@ export default function App() {
   const showMainContent = !!selectedTopic || (selectedCategory && activeView === 'category');
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden bg-gray-950">
+    <div className="h-screen w-screen flex flex-col overflow-hidden bg-[#0a0a0a]">
       <TopBar />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
