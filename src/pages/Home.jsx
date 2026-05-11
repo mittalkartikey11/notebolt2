@@ -11,22 +11,26 @@ import useThemeStore from '../store/useThemeStore';
 
 function StatCard({ icon: Icon, label, value, sub, color, accentColor }) {
   return (
-    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.15 }}
-      className="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col gap-3 hover:border-gray-700 transition-colors">
+    <motion.div 
+      whileHover={{ y: -2 }} 
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.15 }}
+      className="bg-gray-900 border border-gray-800 rounded-xl md:rounded-2xl p-3 md:p-4 flex flex-col gap-2 md:gap-3 hover:border-gray-700 transition-colors touch-card stat-card-mobile"
+    >
       <div className="flex items-start justify-between">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: accentColor + '22' }}>
-          <Icon size={18} style={{ color: accentColor }} />
+        <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg md:rounded-xl flex items-center justify-center" style={{ background: accentColor + '22' }}>
+          <Icon size={16} md-size={18} style={{ color: accentColor }} />
         </div>
         {sub && (
-          <span className="flex items-center gap-0.5 text-[10px] text-green-400 font-medium">
-            <ArrowUpRight size={10} />
+          <span className="flex items-center gap-0.5 text-[9px] md:text-[10px] text-green-400 font-medium">
+            <ArrowUpRight size={9} md-size={10} />
             {sub}
           </span>
         )}
       </div>
       <div>
-        <p className="text-2xl font-bold text-gray-100">{value.toLocaleString()}</p>
-        <p className="text-xs text-gray-500 mt-0.5">{label}</p>
+        <p className="text-xl md:text-2xl font-bold text-gray-100">{value.toLocaleString()}</p>
+        <p className="text-[11px] md:text-xs text-gray-500 mt-0.5">{label}</p>
       </div>
     </motion.div>
   );
@@ -146,19 +150,19 @@ export default function Home() {
   const overallProgress = 68;
 
   return (
-    <div className="flex-1 overflow-y-auto bg-gray-950">
-      <div className="max-w-[1400px] mx-auto p-6">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-xl font-bold text-gray-100">{greeting}, Aditya! 👋</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Let's continue your learning journey today.</p>
+    <div className="flex-1 overflow-y-auto bg-gray-950 mobile-content-with-topbar main-content">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 pb-20 md:pb-6">
+        {/* Header - Mobile optimized */}
+        <div className="mb-4 md:mb-6 pt-4 md:pt-0">
+          <h1 className="text-[20px] md:text-xl font-bold text-gray-100">{greeting}, Aditya! 👋</h1>
+          <p className="text-xs md:text-sm text-gray-500 mt-1">Let's continue your learning journey today.</p>
         </div>
 
-        <div className="grid grid-cols-12 gap-4">
-          {/* Left + Center columns */}
-          <div className="col-span-8 space-y-4">
-            {/* Stat cards */}
-            <div className="grid grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4">
+          {/* Full width on mobile, 8 cols on desktop */}
+          <div className="md:col-span-8 space-y-3 md:space-y-4">
+            {/* Stat cards - 2 cols on mobile, 5 on desktop */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3 card-gap-mobile">
               <StatCard icon={FileText} label="Total Notes" value={stats.total || 1248} sub="↑ 12 this week" accentColor="#ea580c" />
               <StatCard icon={Star} label="Starred Notes" value={stats.starred || 86} sub="↑ 5 this week" accentColor="#f59e0b" />
               <StatCard icon={CheckCircle} label="Completed" value={stats.completed || 389} sub="↑ 18 this week" accentColor="#22c55e" />
